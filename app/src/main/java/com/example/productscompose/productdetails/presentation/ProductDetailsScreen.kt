@@ -22,13 +22,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.productscompose.R
 import com.example.productscompose.navigation.Screen
-import com.example.productscompose.productlist.data.model.Product
 import com.example.productscompose.productdetails.viewmodel.ProductDetailsViewModel
+import com.example.productscompose.productlist.data.model.Product
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,6 +48,8 @@ fun ProductsDetailsScreen(
     }
     val coroutineScope = rememberCoroutineScope()
 
+    val context = LocalContext.current
+
     Scaffold(
         topBar = { ProductDetailsAppBar(product.title, navController = navController) },
         snackbarHost = {
@@ -56,8 +63,8 @@ fun ProductsDetailsScreen(
                 }
                 coroutineScope.launch {
                     snackBarHostState.showSnackbar(
-                        message = "Product inserted.",
-                        actionLabel = "DISMISS",
+                        message = context.getString(R.string.text_product_inserted),
+                        actionLabel = context.getString(R.string.text_dismiss),
                         duration = SnackbarDuration.Short
                     )
                 }
@@ -73,19 +80,25 @@ fun ProductsDetailsScreen(
         ) {
             Text(
                 text = product.title,
-                modifier = Modifier.padding(10.dp),
-                fontSize = 18.sp,
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.size10)),
+                fontSize = with(LocalDensity.current) {
+                    dimensionResource(id = R.dimen.size18).toSp()
+                },
                 fontWeight = FontWeight.Bold
             )
-            Text(text = product.description, modifier = Modifier.padding(10.dp))
+            Text(text = product.description, modifier = Modifier.padding(dimensionResource(id = R.dimen.size10)))
             Text(
-                text = "$ ${product.price}", modifier = Modifier.padding(10.dp), fontSize = 22.sp,
+                text = "$ ${product.price}", modifier = Modifier.padding(dimensionResource(id = R.dimen.size10)), fontSize = with(LocalDensity.current) {
+                    dimensionResource(id = R.dimen.size22).toSp()
+                },
                 fontWeight = FontWeight.Bold
             )
             Button(
-                modifier = Modifier.fillMaxWidth().padding(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
                 onClick = { viewModel.insertProductToCart(product) }) {
-                Text(text = "Add to cart")
+                Text(text = stringResource(R.string.add_to_cart))
             }
         }
     }
@@ -100,7 +113,7 @@ fun ProductDetailsAppBar(productName: String, navController: NavController) {
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.DarkGray),
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.Default.ArrowBack, "backProductDetail")
+                Icon(Icons.Default.ArrowBack, stringResource(R.string.cntDesc_backproductdetail))
             }
         }
     )

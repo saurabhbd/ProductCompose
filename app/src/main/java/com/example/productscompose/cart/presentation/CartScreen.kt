@@ -16,8 +16,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.productscompose.R
 import com.example.productscompose.cart.viewmodel.CartViewModel
 import com.example.productscompose.productlist.presentation.ProductCard
 
@@ -29,7 +32,7 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel) {
 
     Scaffold(topBar = { CartAppBar(navController = navController) }) {
         Column(Modifier.padding(it)) {
-            LazyColumn(modifier = Modifier.padding(16.dp)) {
+            LazyColumn(modifier = Modifier.padding(dimensionResource(id = R.dimen.size16))) {
                 items(items = productList) { product ->
                     ProductCard(product = product, onClick = {})
                 }
@@ -42,11 +45,11 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel) {
 @Composable
 fun CartAppBar(navController: NavController) {
     TopAppBar(
-        title = { Text(text = "Cart") },
+        title = { Text(text = stringResource(R.string.text_cart)) },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.DarkGray),
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.Default.ArrowBack, "backCart")
+                Icon(Icons.Default.ArrowBack, stringResource(R.string.cart_cntDesc))
             }
         }
     )

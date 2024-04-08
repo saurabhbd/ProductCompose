@@ -24,11 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.productscompose.R
 import com.example.productscompose.productlist.data.model.Product
 
 @Composable
@@ -60,7 +62,7 @@ fun ProductThumbnail(thumbnail: String) {
         model = ImageRequest.Builder(LocalContext.current).data(thumbnail).build(),
         contentDescription = "productThumbnail",
         contentScale = ContentScale.Inside,
-        modifier = Modifier.size(100.dp)
+        modifier = Modifier.size(dimensionResource(id = R.dimen.size100))
     )
 }
 
@@ -68,9 +70,16 @@ fun ProductThumbnail(thumbnail: String) {
 fun ProductTitle(title: String) {
     Text(
         text = title,
-        fontSize = 16.sp,
+        fontSize = with(LocalDensity.current) {
+            dimensionResource(id = R.dimen.size16).toSp()
+        },
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp)
+        modifier = Modifier.padding(
+            start = dimensionResource(id = R.dimen.size10),
+            end = dimensionResource(id = R.dimen.size10),
+            top = dimensionResource(id = R.dimen.size10),
+            bottom = dimensionResource(id = R.dimen.size10)
+        )
     )
 }
 
@@ -78,9 +87,11 @@ fun ProductTitle(title: String) {
 fun ProductPrice(price: String) {
     Text(
         text = "$ $price",
-        fontSize = 18.sp,
+        fontSize = with(LocalDensity.current) {
+            dimensionResource(id = R.dimen.size18).toSp()
+        },
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp)
+        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.size10), end = dimensionResource(id = R.dimen.size10), top = dimensionResource(id = R.dimen.size10), bottom = dimensionResource(id = R.dimen.size10))
     )
 }
 
@@ -100,7 +111,9 @@ fun StarRatingBar(
     val starSpacing = (0.5f * density).dp
 
     Row(
-        modifier = Modifier.selectableGroup().padding(start = 10.dp, top = 5.dp),
+        modifier = Modifier
+            .selectableGroup()
+            .padding(start = dimensionResource(id = R.dimen.size10), top = dimensionResource(id = R.dimen.size5)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         for (i in 1..maxStars) {
@@ -118,8 +131,8 @@ fun StarRatingBar(
                             onRatingChanged(i.toFloat())
                         }
                     )
-                    .width(20.dp)
-                    .height(20.dp)
+                    .width(dimensionResource(id = R.dimen.size20))
+                    .height(dimensionResource(id = R.dimen.size20))
             )
 
             if (i < maxStars) {

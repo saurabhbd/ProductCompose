@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProductsCompose</string>
+    <string name="text_cart">Cart</string>
+    <string name="cart_cntDesc">backCart</string>
+    <string name="text_product_inserted">Product inserted.</string>
+    <string name="text_dismiss">DISMISS</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="cntDesc_backproductdetail">backProductDetail</string>
 </resources>
