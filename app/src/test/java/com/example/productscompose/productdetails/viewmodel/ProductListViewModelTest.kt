@@ -1,25 +1,20 @@
 package com.example.productscompose.productdetails.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.productscompose.productlist.viewmodel.ProductListViewModel
 import com.example.productscompose.productlist.data.model.Product
 import com.example.productscompose.productlist.data.model.ProductsResponse
 import com.example.productscompose.productlist.repository.ProductsRepository
+import com.example.productscompose.productlist.viewmodel.ProductListViewModel
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.whenever
 
 class ProductListViewModelTest {
-
-    @get: Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: ProductListViewModel
     private lateinit var productsRepository: ProductsRepository
@@ -28,7 +23,7 @@ class ProductListViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(Dispatchers.Default)
-        productsRepository = mock(ProductsRepository::class.java)
+        productsRepository = mockk()
         viewModel = ProductListViewModel(productsRepository)
     }
 
@@ -50,8 +45,7 @@ class ProductListViewModelTest {
                 )
             )
 
-            whenever(productsRepository.getProducts(10))
-                .thenReturn(data)
+            coEvery { productsRepository.getProducts(10) } returns data
 
             val paginatedData = viewModel.getAllProducts()
 
